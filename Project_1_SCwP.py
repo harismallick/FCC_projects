@@ -75,7 +75,7 @@ def arithmetic_arranger(arr, show_ans=False):
         
         
 def main():
-    arithmetic_arranger(['2555+30', '25-3000'])
+    arithmetic_arranger(['2555+30', '25-3000', '1-4000'])
     
 if __name__ == '__main__':
     main()
