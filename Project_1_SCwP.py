@@ -68,8 +68,41 @@ def arithmetic_arranger(arr, show_ans=False):
         
         op_list.append(split)
         
-    print(op_list)
+    #print(op_list)
+    
+    # Now print the different elements in the desired order:
         
+    top_line = []
+    bot_line = []
+    
+    for op in op_list:
+        
+        top_line.append('  ' + op[0] + '    ')
+        bot_line.append((op[1] + op[-1] + '    '))
+        
+    #print(top_line)
+    #print(bot_line)  
+    
+    for num in top_line:
+        print(num, end='')
+        
+    print('\n', end='')
+    
+    for num in bot_line:
+        print(num, end='')
+        
+    print('\n', end='')
+    
+    # Printing the dashed lines:
+    
+    dash = '------    '
+    dashes = [dash] * len(op_list)
+    
+    for dash in dashes:
+        print(dash, end='')
+        
+    print('\n', end='')
+    
         
         
         
