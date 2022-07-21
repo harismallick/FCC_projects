@@ -6,19 +6,7 @@ Created on Tue Jul 19 17:37:47 2022
 """
 
 import re
-
-test = '255*300'
-
-# x = re.findall('[\*\/]', test)
-# print(x)
-
-# y = re.split('[\*\/]', test)
-# print(y)
-
-# test2 = ['15', '   16', '20' '\n15', '+ 161', '20']
-# for item in test2:
-#     print(item, end='    ')
-#print(test2)
+import operator
 
 def arithmetic_arranger(arr, show_ans=False):
     
@@ -45,7 +33,7 @@ def arithmetic_arranger(arr, show_ans=False):
         split = re.split('[\+\-]', item)
         
         for num_str in split:
-            if len(num_str) > 4:
+            if len(num_str) > 5:
                 return print('Error: Numbers cannot be more than four digits.')
         
         if '+' in item:
@@ -64,11 +52,14 @@ def arithmetic_arranger(arr, show_ans=False):
             temp = split[0]
             split[0] = ' '*(-1*size_diff) + temp
         
-        
-        
         op_list.append(split)
         
     #print(op_list)
+
+    # Go to separate function to perform the arithmetic operation.
+    # Operation results will be stored in a separate list.
+
+    answers = arithmetic(op_list)
     
     # Now print the different elements in the desired order:
         
@@ -93,7 +84,7 @@ def arithmetic_arranger(arr, show_ans=False):
         
     print('\n', end='')
     
-    # Printing the dashed lines:
+    # Printing the dashed line:
     
     dash = '------    '
     dashes = [dash] * len(op_list)
@@ -102,13 +93,33 @@ def arithmetic_arranger(arr, show_ans=False):
         print(dash, end='')
         
     print('\n', end='')
+
+    if show_ans:
+        for answer in answers:
+            front_spacing = 6 - len(answer)
+            space = front_spacing*' '
+            print(f'{space}{answer}    ', end='')
     
         
-        
+def arithmetic(op_arr):
+    
+    operators = {
+        '+ ': operator.add,
+        '- ': operator.sub
+    }
+    answers = []
+
+    for op in op_arr:
+        operation = operators[op[1]](int(op[0]), int(op[2]))
+        answers.append(str(operation))
+
+    print(answers)
+
+    return answers 
         
         
 def main():
-    arithmetic_arranger(['2555+30', '25-3000', '1-4000'])
+    arithmetic_arranger(["32 + 8", "1 - 3801", "9999 + 9999", "523 - 49"], True)
     
 if __name__ == '__main__':
     main()
