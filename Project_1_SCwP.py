@@ -8,17 +8,22 @@ Created on Tue Jul 19 17:37:47 2022
 import re
 import operator
 
+# test = '9999'
+# op = '+'
+# print(op + test)
+
 def arithmetic_arranger(arr, show_ans=False):
     
     if len(arr) > 5:
         
         return print('Error: Too many problems.')
     
-    op_list = []
+    operand_list = []
+    operator_list = []
     
     for item in arr:
         
-        #print(item)
+        # Error handling clauses
         
         letter_search = re.findall('[a-zA-Z]', item)
         
@@ -31,91 +36,95 @@ def arithmetic_arranger(arr, show_ans=False):
             return print('Error: Operator must be \'+\' or \'-\'.')
         
         split = re.split('[\+\-]', item)
+        #print(split)
+        split[0] = split[0].strip()
+        split[1] = split[1].strip()
+        #print(split)
         
         for num_str in split:
-            if len(num_str) > 5:
+
+            if len(num_str) > 4:
                 return print('Error: Numbers cannot be more than four digits.')
         
         if '+' in item:
-            split.insert(1, '+ ')
+            operator_list.append('+')
             
         else:
-            split.insert(1, '- ')
+            operator_list.append('-')
         
-        size_diff = len(split[0]) - len(split[-1])
+        size_diff = len(split[0]) - len(split[1])
         
         if size_diff > 0:
-            temp = split[-1]
-            split[-1] = ' '*size_diff + temp
+            temp = split[1]
+            split[1] = ' '*size_diff + temp
             
         else:
             temp = split[0]
             split[0] = ' '*(-1*size_diff) + temp
         
-        op_list.append(split)
+        operand_list.append(split)
         
-    #print(op_list)
+    #print(operand_list)
 
     # Go to separate function to perform the arithmetic operation.
     # Operation results will be stored in a separate list.
 
-    answers = arithmetic(op_list)
+    answers, top_line, bot_line = arithmetic(operand_list, operator_list)
     
     # Now print the different elements in the desired order:
-        
-    top_line = []
-    bot_line = []
-    
-    for op in op_list:
-        
-        top_line.append('  ' + op[0] + '    ')
-        bot_line.append((op[1] + op[-1] + '    '))
         
     #print(top_line)
     #print(bot_line)  
     
     for num in top_line:
-        print(num, end='')
+        print(num, end='\t')
         
     print('\n', end='')
     
     for num in bot_line:
-        print(num, end='')
+        print(num, end='\t')
         
     print('\n', end='')
     
     # Printing the dashed line:
     
-    dash = '------    '
-    dashes = [dash] * len(op_list)
+    dash = '-'
+    #dashes = [dash] * len(operand_list)
     
-    for dash in dashes:
-        print(dash, end='')
+    for num in bot_line:
+        dashes = dash * len(num)
+        print(dashes, end='\t',)
+        #print(dash, end='')
         
     print('\n', end='')
 
     if show_ans:
-        for answer in answers:
-            front_spacing = 6 - len(answer)
+        for answer, line in zip(answers, bot_line):
+            front_spacing = len(line) - len(answer)
             space = front_spacing*' '
-            print(f'{space}{answer}    ', end='')
+            print(f'{space}{answer}', end='\t')
     
         
-def arithmetic(op_arr):
+def arithmetic(num_arr, op_arr):
     
     operators = {
-        '+ ': operator.add,
-        '- ': operator.sub
+        '+': operator.add,
+        '-': operator.sub
     }
     answers = []
+    top_line = []
+    bot_line = []
 
-    for op in op_arr:
-        operation = operators[op[1]](int(op[0]), int(op[2]))
+    for nums, op in zip(num_arr, op_arr):
+        operation = operators[op](int(nums[0]), int(nums[1]))
         answers.append(str(operation))
+        
+        top_line.append('  ' + nums[0])
+        bot_line.append(op + ' ' + nums[1])
 
-    print(answers)
+    #print(answers)
 
-    return answers 
+    return answers, top_line, bot_line
         
         
 def main():
