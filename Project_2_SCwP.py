@@ -40,14 +40,19 @@ def add_time(time, duration, day=None):
         days_count = new_hour // 24
         new_hour = new_hour % 24
 
-    if new_hour in [0, 24]:
-        if new_hour == 24:
-            pm = True
-        new_hour = 12
-        
     if new_hour > 12:
         pm = True
         new_hour = new_hour - 12
+
+    new_time_mins = int(new_hour)*60 + int(new_mins)
+    #print(new_time_mins)
+
+    if new_time_mins >= 720:
+        pm = True
+
+    if new_hour == 0:
+        new_hour = 12
+        pm = False
 
     if pm:
         time_print = f'{str(new_hour)}:{str(new_mins).rjust(2, "0")} PM'
@@ -80,16 +85,11 @@ def add_time(time, duration, day=None):
     else:
         print(f'{time_print}')
 
-
-    
-
 def duration_convert(duration):
 
     hour_mins = duration.split(':')
-<<<<<<< HEAD
     print(hour_mins)
 
-=======
     #print(f'Duration variables: {hour_mins}')
 
     hours = int(hour_mins[0])
@@ -119,17 +119,9 @@ def day_calc(days_count, day):
             new_day = k.capitalize()
 
     return new_day
-    
->>>>>>> dc62e928b7f29e08532e7dcb851cb33c0cf18735
 
 def main():
-    add_time("11:43 AM", "00:20")
-    #duration_convert('3:10')
+    add_time("3:00 PM", "3:10")
 
 if __name__ == '__main__':
     main()
-
-# test = 370
-# floor_div = test//60
-# rem = test % 60
-# print(floor_div, rem)
