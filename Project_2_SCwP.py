@@ -24,7 +24,7 @@ def duration_convert(duration):
 
     hour_mins = duration.split(':')
     print(hour_mins)
-    
+
 
 def main():
     add_time('3:00 PM', '3:10')
